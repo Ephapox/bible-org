@@ -1,10 +1,6 @@
 const test = require('ava');
-const app = require('./app.js');
+const CONFIG = require('./../config.js');
 
-test('foo', t => {
-  t.pass();
-});
-
-test('adder', t => {
-  t.is(10, app.adder(1,1,8));
+test('config has bible.org key', t => {
+  t.true(CONFIG.hasOwnProperty('BIBLE_ORG_KEY'));
 });

@@ -5,7 +5,8 @@
     "request": "^2.75.0"
   },
   "scripts": {
-    "test": "ava ./build/test.js --watch"
+    "test": "ava ./build/test.js --watch --verbose",
+    "start": "babel src --out-dir build --watch"
   },
   "devDependencies": {
     "ava": "^0.16.0",
@@ -18,6 +19,6 @@
       "es2015"
     ]
   },
-  "main": "index.js",
+  "main": "reading-plan.js",
   "license": "MIT"
 }
