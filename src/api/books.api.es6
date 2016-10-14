@@ -14,7 +14,7 @@ function getAllBooks(version_id, params, return_type="js") {
     books_endpoints.getAllBooks,
     {
       version_id: version_id,
-      return_type: "js"
+      return_type: return_type 
     },
     params
   );
@@ -25,7 +25,7 @@ function getAllBooksByBookgroups(group_id, params, return_type="js") {
     books_endpoints.getAllBooksByBookgroups,
     {
       group_id: group_id, 
-      return_type: "js"
+      return_type: return_type 
     },
     params
   );

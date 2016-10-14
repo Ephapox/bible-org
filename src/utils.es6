@@ -7,6 +7,7 @@ const utils = {
   // adds query parameters to url.
   addParams: addParams,
   standardPromise: standardPromise,
+  arrayToParams: arrayToParams
 };
 
 function standardGet(error, body, resolve, reject) {
@@ -46,6 +47,16 @@ function addParams(url, params) {
   });
   return url;
 };
+
+function arrayToParams(paramArray) {
+  return _.reduce(paramArray, (acc, value, idx) => {
+    if(idx === 0) {
+      return acc += encodeURI(value.replace(" ", "+"));
+    } else {
+      return acc += "," + encodeURI(value.replace(" ", "+"));
+    }
+  }, "");
+}; 
 
 function standardPromise(endpoint, args, params) {
   return new Promise((resolve, reject) => {
