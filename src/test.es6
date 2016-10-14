@@ -6,8 +6,76 @@ const bible = require('./bible-org.js');
 const endpoints = require('./endpoints.js');
 const utils = require('./utils.js');
 
+const versions_api = require('./api/versions.api.js');
+const books_api = require('./api/books.api.js');
+
 test.beforeEach(t => {
   t.context.version_id = "eng-ESV";
+  t.context.book_name = "Rev";
+  t.context.language = "eng-US";
+  t.context.group_id = "3";
+});
+
+test('versions_api.getAllVersions', t => {
+  return versions_api.getAllVersions().then(
+    body => {
+      t.true(body.response.versions.length > 0, `There should be > 0 versions but instead found ${body}`);
+    },
+    error => {
+      t.fail(`Request failed but handled: ${error}`);
+    }
+  );
+});
+test('versions_api.getVersionInfo', t => {
+  return versions_api.getVersionInfo(t.context.version_id).then(
+    body => {
+      t.plan(2);
+      t.true(body.response.versions.length === 1);
+      t.true(body.response.versions[0].id === t.context.version_id);
+    },
+    error => {
+      t.fail(`Request failed but handled: ${error}`);
+    }
+  );
+});
+test('books_api.getAllBooks', t => {
+  return books_api.getAllBooks(
+    t.context.version_id,
+    {
+      include_chapters: true
+    }
+  ).then(
+    body => {
+      t.plan(2);
+      t.true(body.response.books.length === 66);
+      t.true(body.response.books[0].hasOwnProperty('chapters'));
+    },
+    error => {
+      t.fail(`Request failed but handled: ${error}`);
+    }
+  );
+});
+
+test('books_api.getAllBooksByBookgroups', t => {
+  return books_api.getAllBooksByBookgroups(t.context.group_id).then(
+    body => {
+      t.true(body.response.books.length > 0);
+    },
+    error => {
+      t.fail(`Request failed but handled: ${error}`);
+    }
+  );
+});
+
+test('books_api.getBook', t => {
+  return books_api.getBook(t.context.version_id, t.context.book_name).then(
+    body => {
+      t.true(body.response.books.length === 1);
+    },
+    error => {
+      t.fail(`Request failed but handled: ${error}`);
+    }
+  );
 });
 
 test('addParams util adds params to url', t => {
@@ -45,9 +113,46 @@ test('addParams util adds params to url', t => {
   t.true(urlTest4 === addedUrl4);
 });
 
+
 /*
  * Promise tests
  */
+test('[Promise] getChapterVerses returns all verses for a chapter', t => {
+  return bible.getChapterVerses(t.context.version_id, t.context.book_name, 50)
+  .then(
+    body => {
+      t.true(body.response.verses.length === 26);
+    },
+    reject => {
+      t.true(reject.hasOwnProperty('error'), "no error property for reject promise."); 
+    }
+  );
+});
+
+test('[Promise] getBookChapter resolves with a single chapter', t => {
+  return bible.getBookChapter(t.context.version_id, t.context.book_name, 5)
+  .then(
+    body => {
+      t.true(body.response.chapters.length === 1);
+    },
+    reject => {
+      t.true(reject.hasOwnProperty('error'), "no error property for reject promise."); 
+    }
+  );
+});
+  
+test('[Promise] getBookChapters resolves with all chapters for a book', t => {
+  return bible.getBookChapters(t.context.version_id, t.context.book_name)
+  .then(
+    body => {
+      t.true(body.response.chapters.length === 50); 
+    },
+    reject => {
+      t.true(reject.hasOwnProperty('error'), "no error property for reject promise."); 
+    }
+  );
+});
+
 test('[Promise] getAllVersions resolves with response with versions array with length > 0 or rejects with error', t => {
   return bible.getAllVersions().then(
     body => {

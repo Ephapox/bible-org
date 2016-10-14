@@ -5,11 +5,15 @@ const utils = require('./utils.js');
 
 const bible_org = {
   getAllVersions: getAllVersions,
-  getAllBooksByVersion: getAllBooksByVersion,
   getVersionsByLanguage: getVersionsByLanguage,
   getVersionInfo: getVersionInfo,
-  getBookByVersion: getBookByVersion
 
+  getAllBooksByVersion: getAllBooksByVersion,
+  getBookByVersion: getBookByVersion,
+  getBookChapters: getBookChapters,
+  getBookChapter: getBookChapter,
+
+  getChapterVerses: getChapterVerses
 };
 
 function getAllVersions() {
@@ -74,6 +78,53 @@ function getBookByVersion(version_id, book_name) {
       utils.standardGet(error, body, resolve, reject);
     });
   }); 
+};
+
+function getBookChapters(version_id, book_name, params) {
+  return new Promise((resolve, reject) => {
+    let compiledUrl = endpoints.getBookChapters({
+      "version_id": version_id,
+      "book_name": book_name
+    });
+
+    compiledUrl = utils.addParams(compiledUrl, params);
+
+    request(compiledUrl, (error, response, body) => {
+      utils.standardGet(error, body, resolve, reject);
+    });
+  });
+};
+
+function getBookChapter(version_id, book_name, chapter, params) {
+  return new Promise((resolve, reject) => {
+    let compiledUrl = endpoints.getBookChapter({
+      "version_id": version_id,
+      "book_name": book_name,
+      "chapter": chapter
+    });
+
+    compiledUrl = utils.addParams(compiledUrl, params);
+
+    request(compiledUrl, (error, response, body) => {
+      utils.standardGet(error, body, resolve, reject);
+    });
+  });
+};
+
+function getChapterVerses(version_id, book_name, chapter, params) {
+  return new Promise((resolve, reject) => {
+    let compiledUrl = endpoints.getChapterVerses({
+      "version_id": version_id,
+      "book_name": book_name,
+      "chapter": chapter
+    });
+
+    compiledUrl = utils.addParams(compiledUrl, params);
+
+    request(compiledUrl, (error, response, body) => {
+      utils.standardGet(error, body, resolve, reject);
+    });
+  });
 };
 
 

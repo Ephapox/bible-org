@@ -1,10 +1,12 @@
 const _ = require('lodash');
+const request = require('request');
 
 const utils = {
   // parses response body using try/catch and resolve/reject.
   standardGet: standardGet,
   // adds query parameters to url.
-  addParams: addParams
+  addParams: addParams,
+  standardPromise: standardPromise,
 };
 
 function standardGet(error, body, resolve, reject) {
@@ -43,6 +45,16 @@ function addParams(url, params) {
     }
   });
   return url;
+};
+
+function standardPromise(endpoint, args, params) {
+  return new Promise((resolve, reject) => {
+    let compiledUrl = utils.addParams(endpoint(args), params);
+
+    request(compiledUrl, (error, response, body) => {
+      standardGet(error, body, resolve, reject);
+    });
+  });
 };
 
 module.exports = utils;
