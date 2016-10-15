@@ -12,13 +12,18 @@
     "ava": "^0.16.0",
     "babel-preset-es2015": "^6.16.0"
   },
-  "name": "bible-reading-plan",
+  "name": "bible-org-api",
   "version": "1.0.0",
+  "keywords": [
+    "bible",
+    "API",
+    "American Bible Society"
+  ],
   "babel": {
     "presets": [
       "es2015"
     ]
   },
-  "main": "reading-plan.js",
+  "main": ".js",
   "license": "MIT"
 }
