@@ -24,6 +24,6 @@
       "es2015"
     ]
   },
-  "main": ".js",
+  "main": "build/bible-org.js",
   "license": "MIT"
 }
