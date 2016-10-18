@@ -1,5 +1,3 @@
-const request = require('request');
-
 const books_endpoints = require('./../endpoints/books.endpoint.js');
 const utils = require('./../utils.js');
 

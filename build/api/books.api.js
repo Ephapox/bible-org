@@ -1,7 +1,5 @@
 'use strict';
 
-var request = require('request');
-
 var books_endpoints = require('./../endpoints/books.endpoint.js');
 var utils = require('./../utils.js');
 

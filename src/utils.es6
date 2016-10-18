@@ -1,13 +1,15 @@
 const _ = require('lodash');
 const request = require('request');
+var apiConfig = require('./../api.config.js');
 
+//const bible_org = require('./bible-org.js');
 const utils = {
   // parses response body using try/catch and resolve/reject.
   standardGet: standardGet,
   // adds query parameters to url.
   addParams: addParams,
   standardPromise: standardPromise,
-  arrayToParams: arrayToParams
+  arrayToParams: arrayToParams,
 };
 
 function standardGet(error, body, resolve, reject) {
@@ -60,7 +62,7 @@ function arrayToParams(paramArray) {
 
 function standardPromise(endpoint, args, params) {
   return new Promise((resolve, reject) => {
-    let compiledUrl = utils.addParams(endpoint(args), params);
+    let compiledUrl = apiConfig.url + utils.addParams(endpoint(args), params);
 
     request(compiledUrl, (error, response, body) => {
       standardGet(error, body, resolve, reject);

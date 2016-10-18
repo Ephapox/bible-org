@@ -5,6 +5,8 @@ var _ = require('lodash');
 
 var utils = require('./utils.js');
 
+var config = require('./../config.js');
+var bible_org = require('./bible-org.js');
 var versions_api = require('./api/versions.api.js');
 var books_api = require('./api/books.api.js');
 var bookgroups_api = require('./api/bookgroups.api.js');
@@ -21,6 +23,7 @@ test.beforeEach(function (t) {
   t.context.bookgroup_id = "1";
   t.context.chapter_number = "1";
   t.context.verse_number = "4";
+  bible_org.setKey(config.key);
 });
 
 test('versions_api.getAllVersions', function (t) {
